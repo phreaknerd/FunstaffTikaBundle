@@ -23,6 +23,12 @@ class FunstaffTikaExtension extends Extension
         $loader->load('services.xml');
 
         $container->setParameter('funstaff.tika.config', $config);
+
+        if (!file_exists($config['tika_path'])) {
+            throw new \InvalidArgumentException(
+                sprintf('The tika app with path "%s" does not exists', $config['tika_path'])
+            );
+        }
     }
 
     public function getAlias()

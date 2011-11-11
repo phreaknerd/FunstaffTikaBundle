@@ -28,11 +28,6 @@ class Tika implements TikaInterface
      */
     public function __construct(Array $configuration, $documentClass, $metadataClass)
     {
-        if (!file_exists($configuration['tika_path'])) {
-            throw new \InvalidArgumentException(
-                sprintf('The tika app with path "%s" does not exists', $configuration['tika_path'])
-            );
-        }
         $this->configuration = $configuration;
         $this->documentClass = $documentClass;
         $this->metadataClass = $metadataClass;

@@ -17,19 +17,6 @@ class TikaTest extends TestCase
         $this->config = array('tika_path' => '/www/bin/tika-app-1.0.jar');
     }
 
-    public function testWithFailedConfig()
-    {
-        $config = array('tika_path' => '/www/bin/tika');
-        try {
-            $tika = new Tika($config,
-                'Funstaff\TikaBundle\Content\Document',
-                'Funstaff\TikaBundle\Content\Metadata');
-        } catch (\InvalidArgumentException $e) {
-            return;
-        }
-        $this->fail('Exception on binary path');
-    }
-
     public function testWithFailedSetOutputFormat()
     {
         $tika = new Tika($this->config,
