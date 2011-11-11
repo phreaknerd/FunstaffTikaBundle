@@ -23,7 +23,7 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->children()
                 ->scalarNode('tika_path')->isRequired()->end()
-                ->scalarNode('output')->defaultValue('xml')
+                ->scalarNode('output_format')->defaultValue('xml')
                     ->validate()
                         ->ifNotInArray(array('xml', 'html', 'text'))
                         ->thenInvalid('Not authorized value for output (only xml, html and text)')

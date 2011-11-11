@@ -31,7 +31,7 @@ class Tika implements TikaInterface
         $this->configuration = $configuration;
         $this->documentClass = $documentClass;
         $this->metadataClass = $metadataClass;
-        $this->outputFormat = ($configuration['tika_path']) ? : 'xml';
+        $this->outputFormat = ($configuration['output_format']) ? : 'xml';
     }
 
     /**
