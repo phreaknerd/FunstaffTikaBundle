@@ -11,9 +11,9 @@ Configuration
 -------------
 File config.yml
 
-funstaff_tika:
-    tika_path:  /path/to/tika-app-1.0.jar
-    output:     ~
+    funstaff_tika:
+        tika_path:  /path/to/tika-app-1.0.jar
+        output:     ~
 
 
 Examples
