@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="funstaff.tika.class">Funstaff\TikaBundle\Wrapper\Tika</parameter>
+        <parameter key="funstaff.document.class">Funstaff\TikaBundle\Content\Document</parameter>
+        <parameter key="funstaff.metadata.class">Funstaff\TikaBundle\Content\Metadata</parameter>
+    </parameters>
+
+    <services>
+        <service id="funstaff.tika" class="%funstaff.tika.class%">
+            <argument>%funstaff.tika.config%</argument>
+            <argument>%funstaff.document.class%</argument>
+            <argument>%funstaff.metadata.class%</argument>
+        </service>
+    </services>
+
+</container>

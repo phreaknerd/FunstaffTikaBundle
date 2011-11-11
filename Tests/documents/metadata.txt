@@ -1,0 +1,22 @@
+Application-Name: Microsoft Office Word
+Application-Version: 12.0000
+Author: Author document
+Character Count: 3567
+Character-Count-With-Spaces: 4207
+Content-Length: 17748
+Content-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document
+Creation-Date: 2011-08-30T15:25:00Z
+Last-Author: Author document
+Last-Modified: 2011-09-29T13:49:00Z
+Line-Count: 29
+Page-Count: 2
+Paragraph-Count: 8
+Revision-Number: 25
+Template: Normal.dotm
+Total-Time: 601
+Word-Count: 648
+creator: laina
+date: 2011-08-30T15:25:00Z
+publisher: 
+resourceName: test.docx
+xmpTPg:NPages: 2
