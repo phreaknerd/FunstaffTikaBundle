@@ -26,7 +26,7 @@ class Tika implements TikaInterface
      *
      * @param Array $configuration
      */
-    public function __construct(Array $configuration, $documentClass, $metadataClass)
+    public function __construct(array $configuration, $documentClass, $metadataClass)
     {
         $this->configuration = $configuration;
         $this->documentClass = $documentClass;
