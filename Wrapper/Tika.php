@@ -137,7 +137,7 @@ class Tika implements TikaInterface
         $command = $this->generateTikaCommand($this->outputFormat);
         foreach ($this->document as $doc) {
             if ($this->logger && $this->logging) {
-                $this->logger->debug(sprintf('Tika extract content: %s', $doc->getPath()));
+                $this->logger->info(sprintf('Tika extract content: %s', $doc->getPath()));
             }
             passthru(sprintf("$command %s", $doc->getPath()));
             $output = ob_get_clean();
@@ -156,7 +156,7 @@ class Tika implements TikaInterface
         $command = $this->generateTikaCommand('meta');
         foreach ($this->document as $doc) {
             if ($this->logger && $this->logging) {
-                $this->logger->debug(sprintf('Tika extract metadata: %s', $doc->getPath()));
+                $this->logger->info(sprintf('Tika extract metadata: %s', $doc->getPath()));
             }
             passthru(sprintf("$command %s", $doc->getPath()));
             $output = ob_get_clean();
