@@ -17,7 +17,7 @@ class TikaTest extends TestCase
     public function setup()
     {
         $this->config = array(
-            'tika_path' => '/www/bin/tika-app-1.0.jar',
+            'tika_path' => __DIR__'/../../vendor/tikatika-app-/1.0.jar',
             'output_format' => 'xml',
             'logging' => true);
     }
