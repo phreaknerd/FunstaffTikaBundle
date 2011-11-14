@@ -12,6 +12,18 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
  */
 class Configuration implements ConfigurationInterface
 {
+    private $debug;
+
+    /**
+     * Constructor
+     *
+     * @param Boolean $debug Whether to use the debug mode
+     */
+    public function  __construct($debug)
+    {
+        $this->debug = (Boolean) $debug;
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -21,6 +33,7 @@ class Configuration implements ConfigurationInterface
         $rootNode = $treeBuilder->root('funstaff_tika');
 
         $rootNode
+            ->addDefaultsIfNotSet()
             ->children()
                 ->scalarNode('tika_path')->isRequired()->end()
                 ->scalarNode('output_format')->defaultValue('xml')
@@ -29,6 +42,7 @@ class Configuration implements ConfigurationInterface
                         ->thenInvalid('Not authorized value for output (only xml, html and text)')
                     ->end()
                 ->end()
+                ->booleanNode('logging')->defaultValue($this->debug)->end()
             ->end();
 
         return $treeBuilder;

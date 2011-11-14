@@ -3,6 +3,7 @@
 namespace Funstaff\TikaBundle\Wrapper;
 
 use Funstaff\TikaBundle\Wrapper\TikaInterface;
+use Symfony\Bridge\Monolog\Logger;
 
 /**
  * Tika
@@ -21,16 +22,22 @@ class Tika implements TikaInterface
 
     protected $metadataClass;
 
+    protected $logger;
+
+    protected $logging;
+
     /**
      * Construct
      *
      * @param Array $configuration
      */
-    public function __construct(array $configuration, $documentClass, $metadataClass)
+    public function __construct(array $configuration, $documentClass, $metadataClass, Logger $logger)
     {
         $this->configuration = $configuration;
         $this->documentClass = $documentClass;
         $this->metadataClass = $metadataClass;
+        $this->logger = $logger;
+        $this->logging = $configuration['logging'];
         $this->outputFormat = ($configuration['output_format']) ? : 'xml';
     }
 
@@ -100,6 +107,26 @@ class Tika implements TikaInterface
     }
 
     /**
+     * Set Logging
+     *
+     * @param boolean $logging
+     */
+    public function setLogging($logging)
+    {
+        $this->logging = $logging;
+    }
+
+    /**
+     * Get Logging
+     *
+     * @return $logging
+     */
+    public function getLogging()
+    {
+        return $this->logging;
+    }
+
+    /**
      * Extract Content
      *
      * @ return void
@@ -109,6 +136,9 @@ class Tika implements TikaInterface
         ob_start();
         $command = $this->generateTikaCommand($this->outputFormat);
         foreach ($this->document as $doc) {
+            if ($this->logger && $this->logging) {
+                $this->logger->debug(sprintf('Tika extract content: %s', $doc->getPath()));
+            }
             passthru(sprintf("$command %s", $doc->getPath()));
             $output = ob_get_clean();
             $doc->setContent($output);
@@ -125,6 +155,9 @@ class Tika implements TikaInterface
         ob_start();
         $command = $this->generateTikaCommand('meta');
         foreach ($this->document as $doc) {
+            if ($this->logger && $this->logging) {
+                $this->logger->debug(sprintf('Tika extract metadata: %s', $doc->getPath()));
+            }
             passthru(sprintf("$command %s", $doc->getPath()));
             $output = ob_get_clean();
             $doc->setMetadata(new $this->metadataClass($output));

@@ -4,6 +4,8 @@ namespace Funstaff\TikaBundle\Tests\Wrapper;
 
 use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
 use Funstaff\TikaBundle\Wrapper\Tika;
+use Symfony\Bridge\Monolog\Logger;
+use Monolog\Handler\NullHandler;
 
 /**
  * TikaTest
@@ -14,14 +16,18 @@ class TikaTest extends TestCase
 {
     public function setup()
     {
-        $this->config = array('tika_path' => '/www/bin/tika-app-1.0.jar');
+        $this->config = array(
+            'tika_path' => '/www/bin/tika-app-1.0.jar',
+            'output_format' => 'xml',
+            'logging' => true);
     }
 
     public function testWithFailedSetOutputFormat()
     {
         $tika = new Tika($this->config,
             'Funstaff\TikaBundle\Content\Document',
-            'Funstaff\TikaBundle\Content\Metadata');
+            'Funstaff\TikaBundle\Content\Metadata',
+            $this->getLogger());
         try {
             $tika->setOutputFormat('foo');
         } catch (\InvalidArgumentException $e) {
@@ -34,7 +40,8 @@ class TikaTest extends TestCase
     {
         $tika = new Tika($this->config,
             'Funstaff\TikaBundle\Content\Document',
-            'Funstaff\TikaBundle\Content\Metadata');
+            'Funstaff\TikaBundle\Content\Metadata',
+            $this->getLogger());
         $tika->setOutputFormat('xml');
         $this->assertEquals('xml', $tika->getOutputFormat());
     }
@@ -43,7 +50,8 @@ class TikaTest extends TestCase
     {
         $tika = new Tika($this->config,
             'Funstaff\TikaBundle\Content\Document',
-            'Funstaff\TikaBundle\Content\Metadata');
+            'Funstaff\TikaBundle\Content\Metadata',
+            $this->getLogger());
         $this->assertTrue(is_array($tika->getDocuments()));
         $this->assertEquals(0, count($tika->getDocuments()));
         $tika->addDocument('test', __DIR__.'/../documents/test.pdf');
@@ -51,11 +59,23 @@ class TikaTest extends TestCase
         $this->assertInstanceOf('Funstaff\TikaBundle\Content\Document', $tika->getDocument('test'));
     }
 
+    public function testLogging()
+    {
+        $tika = new Tika($this->config,
+            'Funstaff\TikaBundle\Content\Document',
+            'Funstaff\TikaBundle\Content\Metadata',
+            $this->getLogger());
+        $this->assertTrue($tika->getLogging());
+        $tika->setLogging(false);
+        $this->assertFalse($tika->getLogging());
+    }
+
     public function testWithNoAddedDocumentExtractContent()
     {
         $tika = new Tika($this->config,
             'Funstaff\TikaBundle\Content\Document',
-            'Funstaff\TikaBundle\Content\Metadata');
+            'Funstaff\TikaBundle\Content\Metadata',
+            $this->getLogger());
         try {
             $tika->extractContent();
         } catch (\InvalidArgumentException $e) {
@@ -68,7 +88,8 @@ class TikaTest extends TestCase
     {
         $tika = new Tika($this->config,
             'Funstaff\TikaBundle\Content\Document',
-            'Funstaff\TikaBundle\Content\Metadata');
+            'Funstaff\TikaBundle\Content\Metadata',
+            $this->getLogger());
         $tika->addDocument('test', __DIR__.'/../documents/test.pdf');
         $tika->extractContent();
         $content = $tika->getDocument('test')->getContent();
@@ -86,7 +107,8 @@ class TikaTest extends TestCase
     {
         $tika = new Tika($this->config,
             'Funstaff\TikaBundle\Content\Document',
-            'Funstaff\TikaBundle\Content\Metadata');
+            'Funstaff\TikaBundle\Content\Metadata',
+            $this->getLogger());
         $tika->addDocument('test', __DIR__.'/../documents/test.pdf');
         $tika->setOutputFormat('html');
         $tika->extractContent();
@@ -99,7 +121,8 @@ class TikaTest extends TestCase
     {
         $tika = new Tika($this->config,
             'Funstaff\TikaBundle\Content\Document',
-            'Funstaff\TikaBundle\Content\Metadata');
+            'Funstaff\TikaBundle\Content\Metadata',
+            $this->getLogger());
         $tika->addDocument('test', __DIR__.'/../documents/test.pdf');
         $tika->setOutputFormat('text');
         $tika->extractContent();
@@ -112,7 +135,8 @@ class TikaTest extends TestCase
     {
         $tika = new Tika($this->config,
             'Funstaff\TikaBundle\Content\Document',
-            'Funstaff\TikaBundle\Content\Metadata');
+            'Funstaff\TikaBundle\Content\Metadata',
+            $this->getLogger());
         $tika->addDocument('test', __DIR__.'/../documents/test.pdf');
         $tika->extractMetadata();
         $metadata = $tika->getDocument('test')->getMetadata();
@@ -124,12 +148,21 @@ class TikaTest extends TestCase
     {
         $tika = new Tika($this->config,
             'Funstaff\TikaBundle\Content\Document',
-            'Funstaff\TikaBundle\Content\Metadata');
+            'Funstaff\TikaBundle\Content\Metadata',
+            $this->getLogger());
         $tika->addDocument('test', __DIR__.'/../documents/test.pdf');
         $tika->extractAll();
         $content = $tika->getDocument('test')->getContent();
         $this->assertTrue(preg_match('/^<\?xml.*/', $content) > 0);
         $metadata = $tika->getDocument('test')->getMetadata();
         $this->assertEquals('application/pdf', $metadata->get('Content-Type'));
+    }
+
+    protected function getLogger()
+    {
+        $logger = new Logger('test');
+        $logger->pushHandler(new NullHandler());
+
+        return $logger;
     }
 }

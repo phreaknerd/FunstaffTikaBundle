@@ -15,6 +15,7 @@
             <argument>%funstaff.tika.config%</argument>
             <argument>%funstaff.document.class%</argument>
             <argument>%funstaff.metadata.class%</argument>
+            <argument type="service" id="logger" on-invalid="null" />
         </service>
     </services>
 
