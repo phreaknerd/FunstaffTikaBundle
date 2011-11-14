@@ -4,9 +4,6 @@ FunstaffTikaBundle: Wrapper for tika
 This bundle work with [Apache Tika](http://tika.apache.org/).
 
 
-Bundle Under development
-
-
 Configuration
 -------------
 File config.yml
@@ -19,13 +16,24 @@ File config.yml
 
 Examples
 --------
-Extract document with text output:
 
+    ### Extract only the content:
     $tika = $this->get('funstaff.tika')
             ->setOutputFormat('text')
             ->addDocument('foo', '/path/to/foo')
             ->extractContent();
 
+    ### Extract Only the metadata
+    $tika = $this->get('funstaff.tika')
+            ...
+            ->extractMetadata();
+
+    ### Extract content and metadata
+    $tika = $this->get('funstaff.tika')
+            ...
+            ->extractAll();
+
+    ### Work with data
     foreach ($tika->getDocuments() as $document) {
         $content = $document->getContent();
         $metadata = $document->getMetadata();
