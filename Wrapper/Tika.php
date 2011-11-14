@@ -30,6 +30,9 @@ class Tika implements TikaInterface
      * Construct
      *
      * @param Array $configuration
+     * @param string $documentClass (path)
+     * @param string $metadataClass (path)
+     * @param Logger $logger
      */
     public function __construct(array $configuration, $documentClass, $metadataClass, Logger $logger)
     {
