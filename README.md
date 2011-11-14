@@ -1,6 +1,8 @@
 FunstaffTikaBundle: Wrapper for tika
 ====================================
 
+[![Build Status](https://secure.travis-ci.org/Garfield-fr/FunstaffTikaBundle.png)](http://travis-ci.org/Garfield-fr/FunstaffTikaBundle)
+
 This bundle work with [Apache Tika](http://tika.apache.org/).
 
 
