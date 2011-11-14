@@ -12,4 +12,4 @@ script: phpunit
 
 notifications:
   email:
-    - bertrand.zuchuat@funstaff.ch
+    - bertrand.zuchuat@gmail.com
