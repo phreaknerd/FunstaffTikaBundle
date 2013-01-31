@@ -1,0 +1,23 @@
+{
+    "name": "funstaff/tika-bundle",
+    "description": "Integration with apache-tika-document-parser.",
+    "keywords": ["solr", "tika", "parse"],
+    "type": "symfony-bundle",
+    "license": "See included License.",
+    "authors": [
+        {
+            "name": "Funstaff",
+            "homepage": "http://www.funstaff.ch"
+        }
+    ],
+    "require": {
+        "symfony/framework-bundle": "2.*"
+    },
+    "require-dev": {
+        "symfony/yaml": "2.*"
+    },
+    "autoload": {
+        "psr-0": { "Funstaff\\TikaBundle": "" }
+    },
+    "target-dir": "Funstaff/TikaBundle"
+}
